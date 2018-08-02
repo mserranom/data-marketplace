@@ -1,0 +1,18 @@
+{
+  "version": "2.0",
+  "app_name": "data-marketplace-backend",
+  "stages": {
+    "dev": {
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "COGNITO_POOL_NAME": "user-pool",
+        "COGNITO_PROVIDER_ARN": "arn:aws:cognito-idp:us-west-2:280996535957:userpool/us-west-2_CoIS7kwaJ",
+        "TABLE_APP_CONFIG": "app_config",
+        "TABLE_CONFIGS": "configs",
+        "TABLE_POLLING_SUBSCRIPTIONS": "polling_subscriptions",
+        "TABLE_CONFIG_TAGS": "config_tags",
+        "TABLE_LIVE_FEEDS": "live_feeds"
+      }
+    }
+  }
+}

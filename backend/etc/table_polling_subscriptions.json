@@ -1,0 +1,15 @@
+{
+  "TableName": "polling_subscriptions",
+  "KeySchema": [
+    { "AttributeName": "interval", "KeyType": "HASH" },
+    { "AttributeName": "url", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "interval", "AttributeType": "S" },
+    { "AttributeName": "url", "AttributeType": "S" }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

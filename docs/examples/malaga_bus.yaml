@@ -1,0 +1,9 @@
+id: malaga_bus
+name: Real Time EMT Malaga Bus Location
+tags:
+  - Smart City
+  - Government
+  - Transport
+url: http://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTLineasUbicaciones/lineasyubicaciones.csv
+interval: 60
+format: CSV

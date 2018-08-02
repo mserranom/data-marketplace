@@ -1,0 +1,4 @@
+id: yaml_config
+name: my yaml config
+url : http://yamlthings
+format: CSV

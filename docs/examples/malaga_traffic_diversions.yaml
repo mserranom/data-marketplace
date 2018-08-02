@@ -1,0 +1,9 @@
+id: malaga_traffic_diversions
+name: Real Time Traffic Diversions in Malaga
+tags:
+  - Smart City
+  - Government
+  - Transport
+url: http://datosabiertos.malaga.eu/recursos/transporte/trafico/da_cortesTrafico-4326.geojson
+interval: 60
+format: geojson

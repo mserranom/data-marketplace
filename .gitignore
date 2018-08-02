@@ -1,0 +1,28 @@
+# Visual Studio Code files
+.vscode/
+
+# IntelliJ files
+.idea/
+*.iml
+
+# node
+node_modules/
+
+# terraform
+/*.auto.tfvars
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform/
+
+# chalice
+.chalice/deployed/
+.chalice/deployments/
+
+# project ignores
+out/
+.tmp/
+dynamodb_local_latest/
+/website/build/
+/cli/test/data/credentials.js
+

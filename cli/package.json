@@ -1,0 +1,24 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-cognito-identity-js": "^2.0.9",
+    "configstore": "^3.1.2",
+    "fs-extra": "^6.0.1",
+    "inquirer": "^6.0.0",
+    "js-yaml": "^3.12.0",
+    "meow": "^5.0.0",
+    "node-fetch-polyfill": "^2.0.6"
+  },
+  "devDependencies": {
+    "jest": "^23.1.0",
+    "shelljs": "^0.8.2"
+  }
+}

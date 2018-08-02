@@ -1,0 +1,66 @@
+Meta:
+  Name: Malaga Open Data
+  Description: 
+  LongDescription:
+    es_ES: >
+      # Malaga Open Data
+
+      Málaga se compromete con la iniciativa a nivel global que pretende poner a disposición del conjunto de ciudadanos y empresas el conjunto de datos e información que poseen las admnistraciones públicas.
+
+      Además se trata de dotar de mayor transparencia a la gestión municipal y hacer más fluido en diálogo entre el gobierno y la ciudadanía.
+    en_US: >
+      # Malaga Open Data
+
+      Málaga is committed to make data available to all citizens.
+
+Subscriptions:
+  - Type: creative_commons_3_1
+    Period: perpetual
+
+Feeds:
+
+  - Name: Ubicaciones de autobuses EMT en tiempo real
+    Description: >
+      Ubicaciones de los autobuses de EMT en tiempo real, las posiciones 
+      se actualizan cada minuto
+    Labels: emt, buses, geo
+    Topics:
+      - Format: CSV
+        Type: poll
+        Url: http://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTLineasUbicaciones/lineasyubicaciones.csv
+        PollPeriod: seconds
+        PollDuration: 60
+      - Format: geojson
+        Type: poll
+        Url: https://my.websocket.file/random_format
+        Security: safely_stored_config_id
+        PollPeriod: seconds
+        PollDuration: 60
+      - Format: fiware
+        Type: poll
+        Url: https://my.websocket.file/random_format
+        Security: safely_stored_config_id
+        PollPeriod: seconds
+        PollDuration: 60
+
+
+  - Name: Ocupación de aparcamientos públicos municipales
+    LongDescription: 
+      es_ES: >
+        Ubicaciones de los aparcamientos públicos municipales.
+        
+        ## Información relacionada
+        * [Ubicación de aparcamientos](http://datosabiertos.malaga.eu/dataset/ubicacion-de-aparcamientos-publicos-municipales)
+      
+      en_US: >
+        Public parking location.
+        
+        ## Related information
+        * [Geolocation of existing parking](http://datosabiertos.malaga.eu/dataset/ubicacion-de-aparcamientos-publicos-municipales)
+    Labels: emt, buses, geo
+    Topics:
+      - Format: CSV
+        Type: poll
+        Url: http://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmun.csv
+        PollPeriod: seconds
+        PollDuration: 60

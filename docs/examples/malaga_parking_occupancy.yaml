@@ -1,0 +1,9 @@
+id: malaga_parking_occupancy
+name: Real Time Occupancy Public Parking Malaga
+tags:
+  - Smart City
+  - Government
+  - Transport
+url: http://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmun.csv
+interval: 60
+format: CSV

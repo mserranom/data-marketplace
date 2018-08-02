@@ -1,0 +1,15 @@
+{
+  "TableName": "configs",
+  "KeySchema": [
+    { "AttributeName": "user_id", "KeyType": "HASH" },
+    { "AttributeName": "id", "KeyType": "RANGE" }
+  ],
+  "AttributeDefinitions": [
+    { "AttributeName": "user_id", "AttributeType": "S" },
+    { "AttributeName": "id", "AttributeType": "S" }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 5,
+    "WriteCapacityUnits": 5
+  }
+}

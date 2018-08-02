@@ -1,0 +1,8 @@
+.label {
+  margin-left: 32px;
+  cursor: pointer;
+}
+
+.label:hover {
+  text-decoration: underline;
+}
