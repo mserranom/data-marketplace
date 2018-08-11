@@ -13,6 +13,17 @@ step () {
     echo "${GREEN}--------> $1${NO_COLOR}"
 }
 
+check_exists() {
+    ls $1 > /dev/null 
+}
+
+
+step "checking requirements"
+terraform --help > /dev/null
+pipenv --version > /dev/null
+npm -v > /dev/null
+
+
 step "deploy terraform stack"
 cd ${ROOT}
 terraform apply -auto-approve
@@ -25,6 +36,7 @@ sleep 1
 
 
 step "build and test CLI"
+check_exists ${ROOT}/cli/test/data/credentials.js
 cd ${ROOT}/cli
 npm install
 npm test
