@@ -4,7 +4,7 @@ import "./Tag.css";
 export const IconTag = ({ name, icon }) => (
   <div className="icon-tag">
     <i className={`fas fa-${icon}`} />{" "}
-    <span className="label">{" " + name}</span>
+    <span className="tag-label">{" " + name}</span>
   </div>
 );
 
@@ -28,6 +28,6 @@ export const Tag = ({ name }) => {
     case "social":
       return <IconTag name="Social" icon="comments" />;
     default:
-      throw new Error("unknown tag: " + name);
+      return <IconTag name="Social" icon="comments" />;
   }
 };

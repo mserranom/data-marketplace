@@ -5,9 +5,9 @@ import { requestFeedToDisplay } from "../redux/reducers/navigation/actions";
 import ReactMarkdown from "react-markdown";
 import { Badge, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
-import { Tag } from "./labels/Tag";
+import { Tag } from "../components/labels/Tag";
 import "./FeedView.css";
-import { UserLabel } from "./labels/UserLabel";
+import { UserLabel } from "../components/labels/UserLabel";
 import { SERVER } from "../util/constants";
 
 class FeedView extends React.Component {
@@ -16,6 +16,18 @@ class FeedView extends React.Component {
       this.props.match.params.user_id,
       this.props.match.params.config_id
     );
+  }
+
+  renderTags() {
+    if (this.props.tags) {
+      return this.props.tags.map((tag, index) => (
+        <div className="feed-view-tag" key={index}>
+          <Tag name={tag.toLowerCase()} />
+        </div>
+      ));
+    } else {
+      return [];
+    }
   }
   render() {
     return (
@@ -26,28 +38,11 @@ class FeedView extends React.Component {
           </BreadcrumbItem>
           <BreadcrumbItem active>{this.props.name}</BreadcrumbItem>
         </Breadcrumb>
-        <div className="border">
+        <div className="border feed-view-border">
           <h1>{this.props.name}</h1>
-          <div className="clearfix">
-            <div className="tag-container float-left">
-              <div className="tag">
-                <Tag className="tag" name="weather" />
-              </div>
-              <div className="tag">
-                <Tag name="finance" />
-              </div>
-              <div className="tag">
-                <Tag name="smart city" />
-              </div>
-              <div className="tag">
-                <Tag name="government" />
-              </div>
-            </div>
-            <div className="float-right">
-              <div className="tag">
-                <UserLabel username={this.props.userId} />
-              </div>
-            </div>
+          <div className="feed-view-tag-container">{this.renderTags()}</div>
+          <div>
+            <UserLabel username={this.props.userId} />
           </div>
           <hr />
           <div>
@@ -79,7 +74,8 @@ FeedView.propTypes = {
   name: PropTypes.string,
   userId: PropTypes.string,
   longDescription: PropTypes.string,
-  url: PropTypes.string
+  url: PropTypes.string,
+  tags: PropTypes.array
 };
 
 const mapStateToProps = state => {
@@ -90,7 +86,8 @@ const mapStateToProps = state => {
       name: config.name,
       userId: state.navigation.feedToDisplay.user_id,
       longDescription: config.long_description,
-      url: config.url
+      url: config.url,
+      tags: config.tags
     };
   }
   return {};

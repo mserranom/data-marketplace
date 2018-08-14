@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from "react-router-dom";
 
 import FeedList2 from "../feed_list/FeedList2";
 import { requestAllFeeds } from "../../redux/reducers/navigation/actions";
@@ -12,9 +14,7 @@ class Explorer extends React.Component {
   }
 
   render() {
-    const header = this.props.tag
-      ? "Category: " + this.props.tag
-      : "All Categories";
+    const header = this.props.tag ? this.props.tag : "All";
     return (
       <div
         style={{
@@ -25,7 +25,12 @@ class Explorer extends React.Component {
           onCategoryClick={category => this.props.onCategoryClick(category)}
         />
         <div style={{ marginLeft: 60 }}>
-          <h2>{header}</h2>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/explore">Explore</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>{header}</BreadcrumbItem>
+          </Breadcrumb>
           <FeedList2 feeds={this.props.feeds} />
         </div>
       </div>

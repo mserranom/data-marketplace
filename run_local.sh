@@ -8,7 +8,7 @@ set -e
 ROOT=$(pwd)
 
 
-step "checking requirements"
+echo "checking requirements"
 terraform --help > /dev/null
 pipenv --version > /dev/null
 npm -v > /dev/null
@@ -16,7 +16,7 @@ npm -v > /dev/null
 
 echo "deploy terraform stack"
 cd ${ROOT}
-terraform apply -auto-approve
+# terraform apply -auto-approve
 
 
 echo "build and run chalice server"

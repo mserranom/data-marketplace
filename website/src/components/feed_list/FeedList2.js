@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import FeedItem from "./FeedItem";
+import FeedItem from "../../views/FeedItemView";
 
 export default class FeedList2 extends React.Component {
   render() {

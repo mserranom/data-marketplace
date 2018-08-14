@@ -23,7 +23,7 @@ export class CategoryList extends React.Component {
   render() {
     return (
       <div>
-        <h3>Categories</h3>
+        <h5>Categories</h5>
         <CategoryTag
           name="Weather"
           icon="sun"

@@ -6,7 +6,7 @@ import Header from "./Header";
 import Explorer from "./explorer/Explorer";
 import { Container, Row, Col } from "reactstrap";
 import Landing from "./Landing";
-import FeedView from "./FeedView";
+import FeedView from "../views/FeedView";
 
 class Root extends React.Component {
   render() {
