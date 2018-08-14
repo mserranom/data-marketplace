@@ -1,6 +1,8 @@
 import React from "react";
 import "./Tag.css";
 
+// TODO: tags should have an alias lowercased, it makes Restful calls complicated
+
 export const IconTag = ({ name, icon }) => (
   <div className="icon-tag">
     <i className={`fas fa-${icon}`} />{" "}
@@ -9,7 +11,7 @@ export const IconTag = ({ name, icon }) => (
 );
 
 export const Tag = ({ name }) => {
-  switch (name) {
+  switch (name.toLowerCase()) {
     case "weather":
       return <IconTag name="Weather" icon="sun" />;
     case "finance":
@@ -28,6 +30,6 @@ export const Tag = ({ name }) => {
     case "social":
       return <IconTag name="Social" icon="comments" />;
     default:
-      return <IconTag name="Social" icon="comments" />;
+      return <IconTag name={name} icon="tag" />;
   }
 };

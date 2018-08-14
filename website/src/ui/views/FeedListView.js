@@ -6,20 +6,30 @@ import { requestAllFeeds } from "../../redux/reducers/navigation/actions";
 import { FeedCard } from "../components/FeedCard";
 
 class FeedListView extends React.Component {
+  renderFeedCards() {
+    if (this.props.items && this.props.items.length > 0) {
+      return this.props.items.map((item, i) => (
+        <div key={i} style={{ marginBottom: 15 }}>
+          <FeedCard
+            item={item}
+            onCategoryClick={tag => {
+              this.props.history.push(`/explore/${tag}`);
+              this.props.onCategoryClick(tag);
+            }}
+            onNameClick={() =>
+              this.props.history.push(
+                `/user/${item.user_id}/config/${item.config.id}`
+              )
+            }
+          />
+        </div>
+      ));
+    } else {
+      return <h5>No items found.</h5>;
+    }
+  }
+
   render() {
-    const rows = this.props.items.map((item, i) => (
-      <div key={i} style={{ marginBottom: 15 }}>
-        <FeedCard
-          item={item}
-          onCategoryClick={tag => this.onCategoryClick(tag)}
-          onNameClick={(userId, configId) =>
-            this.props.history.push(
-              `/user/${item.user_id}/config/${item.config.id}`
-            )
-          }
-        />
-      </div>
-    ));
     return (
       <div
         style={{
@@ -28,7 +38,7 @@ class FeedListView extends React.Component {
           justifyContent: "space-between "
         }}
       >
-        {rows}
+        {this.renderFeedCards()}
       </div>
     );
   }

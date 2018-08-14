@@ -31,14 +31,7 @@
   position: absolute;
   left: 100px;
   top: 53px;
-  max-width: 200px;
+  max-width: 240px;
   display: flex;
   flex-wrap: wrap;
-}
-
-.tag {
-  color: #6d747c; /* GREY DARK */
-  font-size: 14px;
-  margin-right: 12px;
-  cursor: pointer;
 }

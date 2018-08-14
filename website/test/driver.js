@@ -39,6 +39,7 @@ export default function createDriver() {
         await page.waitForSelector("#loginForm");
       },
       clickSignOut: async () => {
+        await page.click("#profileDropDown");
         await page.click("#signoutLink");
       },
       waitUntilSignupAndLoginButtonsAreVisible: async () => {

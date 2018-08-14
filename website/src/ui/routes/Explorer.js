@@ -10,7 +10,7 @@ import { CategoryList } from "../components/CategoryList";
 
 class Explorer extends React.Component {
   componentDidMount() {
-    this.props.onComponentDidMount();
+    this.props.onComponentDidMount(this.props.match.params.tag);
   }
 
   render() {
@@ -22,7 +22,10 @@ class Explorer extends React.Component {
         }}
       >
         <CategoryList
-          onCategoryClick={category => this.props.onCategoryClick(category)}
+          onCategoryClick={category => {
+            this.props.history.push(`/explore/${category}`);
+            this.props.onCategoryClick(category);
+          }}
         />
         <div style={{ marginLeft: 60 }}>
           <Breadcrumb>
@@ -31,7 +34,6 @@ class Explorer extends React.Component {
             </BreadcrumbItem>
             <BreadcrumbItem active>{header}</BreadcrumbItem>
           </Breadcrumb>
-          {/* <FeedList feeds={this.props.feeds} /> */}
           <FeedListView items={this.props.feeds} />
         </div>
       </div>
@@ -53,8 +55,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onComponentDidMount: () => {
-      dispatch(requestAllFeeds());
+    onComponentDidMount: tag => {
+      // tag is optional here
+      dispatch(requestAllFeeds(tag));
     },
     onCategoryClick: tag => {
       dispatch(requestAllFeeds(tag));

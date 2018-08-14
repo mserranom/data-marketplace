@@ -1,12 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Tag } from "./labels/Tag";
 import "./FeedCard.css";
-
-const Tag = ({ text, icon, onClick }) => (
-  <div className="font-weight-light tag" onClick={() => onClick()}>
-    <i className={`fas fa-${icon}`} /> {" " + text}
-  </div>
-);
 
 const ImgPlaceholder = () => <div className="img-placeholder" />;
 
@@ -29,12 +24,14 @@ export class FeedCard extends React.Component {
     const tags = this.props.item.config.tags
       ? this.props.item.config.tags
           .map((tag, index) => (
-            <Tag
+            // can't set marginRight in Tag for some reason
+            <div
               key={index}
-              text={tag}
-              icon="hospital"
-              onClick={() => this.props.onCategoryClick("Smart City")}
-            />
+              style={{ marginRight: 12 }}
+              onClick={() => this.props.onCategoryClick(tag)}
+            >
+              <Tag name={tag} icon={tag} />
+            </div>
           ))
           .slice(0, maxTagsToShow)
       : [];

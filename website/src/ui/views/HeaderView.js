@@ -85,7 +85,7 @@ class HeaderView extends React.Component {
         </NavLink>
 
         <UncontrolledDropdown nav inNavbar>
-          <DropdownToggle nav caret>
+          <DropdownToggle nav caret id="profileDropDown">
             {"@" + this.props.username}
           </DropdownToggle>
           <DropdownMenu right>

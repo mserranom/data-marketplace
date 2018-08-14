@@ -18,6 +18,7 @@ class Root extends React.Component {
             <Row>
               <Col md={{ size: 10, offset: 1 }}>
                 <Switch>
+                  <Route path="/explore/:tag" component={Explorer} />
                   <Route path="/explore" component={Explorer} />
                   <Route
                     path="/user/:user_id/config/:config_id"
