@@ -1,0 +1,14 @@
+.feed-view-border {
+  border-radius: 4px;
+  padding: 30px;
+}
+
+.feed-view-tag-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.feed-view-tag {
+  margin-right: 10px;
+}

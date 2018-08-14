@@ -1,0 +1,10 @@
+.icon-tag {
+  color: grey;
+  font-size: 14px;
+  font-weight: lighter;
+  cursor: pointer;
+}
+
+.tag-label:hover {
+  text-decoration: underline;
+}
