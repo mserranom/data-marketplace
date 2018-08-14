@@ -10,11 +10,22 @@ import { CategoryList } from "../components/CategoryList";
 
 class Explorer extends React.Component {
   componentDidMount() {
-    this.props.onComponentDidMount(this.props.match.params.tag);
+    const tag = this.props.match.params.tag;
+    this.props.onTagUpdated(tag);
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevTag = prevProps.match.params.tag;
+    const nextTag = this.props.match.params.tag;
+    if (prevTag !== nextTag) {
+      this.props.onTagUpdated(nextTag);
+    }
   }
 
   render() {
-    const header = this.props.tag ? this.props.tag : "All";
+    const header = this.props.match.params.tag
+      ? this.props.match.params.tag
+      : "All";
     return (
       <div
         style={{
@@ -24,7 +35,6 @@ class Explorer extends React.Component {
         <CategoryList
           onCategoryClick={category => {
             this.props.history.push(`/explore/${category}`);
-            this.props.onCategoryClick(category);
           }}
         />
         <div style={{ marginLeft: 60 }}>
@@ -48,18 +58,14 @@ Explorer.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    feeds: state.navigation.allFeeds,
-    tag: state.navigation.tag
+    feeds: state.navigation.allFeeds
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onComponentDidMount: tag => {
+    onTagUpdated: tag => {
       // tag is optional here
-      dispatch(requestAllFeeds(tag));
-    },
-    onCategoryClick: tag => {
       dispatch(requestAllFeeds(tag));
     }
   };

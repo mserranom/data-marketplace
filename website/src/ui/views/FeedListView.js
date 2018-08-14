@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { requestAllFeeds } from "../../redux/reducers/navigation/actions";
 import { FeedCard } from "../components/FeedCard";
 
 class FeedListView extends React.Component {
@@ -14,7 +12,6 @@ class FeedListView extends React.Component {
             item={item}
             onCategoryClick={tag => {
               this.props.history.push(`/explore/${tag}`);
-              this.props.onCategoryClick(tag);
             }}
             onNameClick={() =>
               this.props.history.push(
@@ -52,18 +49,4 @@ FeedListView.defaultProps = {
   items: []
 };
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onCategoryClick: tag => {
-      dispatch(requestAllFeeds(tag));
-    }
-  };
-};
-
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FeedListView)
-);
+export default withRouter(FeedListView);

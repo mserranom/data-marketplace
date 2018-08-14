@@ -9,6 +9,7 @@ import { Tag } from "../components/labels/Tag";
 import "./FeedView.css";
 import { UserLabel } from "../components/labels/UserLabel";
 import { SERVER } from "../../util/constants";
+import { withRouter } from "react-router-dom";
 
 class FeedView extends React.Component {
   componentDidMount() {
@@ -21,7 +22,11 @@ class FeedView extends React.Component {
   renderTags() {
     if (this.props.tags) {
       return this.props.tags.map((tag, index) => (
-        <div className="feed-view-tag" key={index}>
+        <div
+          className="feed-view-tag"
+          key={index}
+          onClick={() => this.props.history.push(`/explore/${tag}`)}
+        >
           <Tag name={tag.toLowerCase()} />
         </div>
       ));
@@ -101,4 +106,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedView);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(FeedView)
+);

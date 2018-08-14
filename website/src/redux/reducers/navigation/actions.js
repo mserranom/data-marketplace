@@ -1,5 +1,6 @@
 import backend from "../../backend";
 
+export const ALL_FEEDS_REQUESTED = "ALL_FEEDS_REQUESTED";
 export const ALL_FEEDS_REQUEST_SUCCEEDED = "ALL_FEEDS_REQUEST_SUCCEEDED";
 export const ALL_FEEDS_REQUEST_FAILED = "ALL_FEEDS_REQUEST_FAILED";
 
@@ -7,6 +8,10 @@ export const FEED_TO_DISPLAY_REQUESTED = "FEED_TO_DISPLAY_REQUESTED";
 export const FEED_TO_DISPLAY_REQUEST_SUCCEEDED =
   "FEED_TO_DISPLAY_REQUEST_SUCCEEDED";
 export const FEED_TO_DISPLAY_REQUEST_FAILED = "FEED_TO_DISPLAY_REQUEST_FAILED";
+
+export function allFeedsRequested(tag) {
+  return { type: ALL_FEEDS_REQUESTED, tag };
+}
 
 export function allFeedsRequestSucceeded(feeds, tag) {
   return { type: ALL_FEEDS_REQUEST_SUCCEEDED, feeds, tag };
@@ -31,6 +36,7 @@ export function feedToDisplayRequestFailed(errorMessage) {
 export function requestAllFeeds(tag) {
   return async function(dispatch) {
     try {
+      dispatch(allFeedsRequested(tag));
       const endpoint = tag ? `/tags/${tag}` : "/config";
       const configs = await backend(endpoint);
       dispatch(allFeedsRequestSucceeded(configs, tag));

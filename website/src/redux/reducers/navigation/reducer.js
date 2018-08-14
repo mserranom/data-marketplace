@@ -14,8 +14,7 @@ export default function(state, action) {
   switch (action.type) {
     case ALL_FEEDS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
-        allFeeds: action.feeds,
-        tag: action.tag
+        allFeeds: action.feeds
       });
     case FEED_TO_DISPLAY_REQUESTED:
       return Object.assign({}, state, {
