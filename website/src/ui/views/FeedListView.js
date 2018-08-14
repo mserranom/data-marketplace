@@ -12,6 +12,11 @@ class FeedListView extends React.Component {
         <FeedCard
           item={item}
           onCategoryClick={tag => this.onCategoryClick(tag)}
+          onNameClick={(userId, configId) =>
+            this.props.history.push(
+              `/user/${item.user_id}/config/${item.config.id}`
+            )
+          }
         />
       </div>
     ));

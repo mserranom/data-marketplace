@@ -56,16 +56,7 @@ export class FeedCard extends React.Component {
           }}
         />
 
-        <h5
-          className="feed-name"
-          onClick={() =>
-            this.props.history.push(
-              `/user/${this.props.item.user_id}/config/${
-                this.props.item.config.id
-              }`
-            )
-          }
-        >
+        <h5 className="feed-name" onClick={() => this.props.onNameClick()}>
           {this.props.item.config.name}
         </h5>
 
@@ -80,7 +71,8 @@ export class FeedCard extends React.Component {
 
 FeedCard.propTypes = {
   item: PropTypes.object,
-  onCategoryClick: PropTypes.func
+  onCategoryClick: PropTypes.func,
+  onNameClick: PropTypes.func
 };
 
 FeedCard.defaultProps = {
@@ -92,5 +84,6 @@ FeedCard.defaultProps = {
       interval: 10
     }
   },
-  onCategoryClick: () => {}
+  onCategoryClick: () => {},
+  onNameClick: () => {}
 };
