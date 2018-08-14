@@ -6,7 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { initStore } from "./redux/store";
-import Root from "./components/Root";
+import Root from "./ui/routes/Root";
 import { checkCurrentUsername } from "./aws/login";
 
 async function run() {
