@@ -17,6 +17,7 @@ import {
   SIGNED_OUT_SUCCEEEDED
 } from "./reducers/login/actions";
 import navigationReducer from "./reducers/navigation/reducer";
+import subscriptionsReducer from "./reducers/subscriptions/reducer";
 
 let username;
 
@@ -120,7 +121,8 @@ export const initStore = user => {
   return createStore(
     combineReducers({
       login: reducer,
-      navigation: navigationReducer
+      navigation: navigationReducer,
+      subscriptions: subscriptionsReducer
     }),
     composeWithDevTools(
       applyMiddleware(

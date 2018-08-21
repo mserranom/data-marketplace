@@ -33,12 +33,26 @@ export function feedToDisplayRequestFailed(errorMessage) {
   return { type: FEED_TO_DISPLAY_REQUEST_FAILED, errorMessage };
 }
 
+function mergeSubscriptionsAndConfigs(subscriptions, configs) {
+  const subscriptionSet = new Set(subscriptions.map(x => x.config_key));
+  configs.forEach(
+    config =>
+      (config.isSubscribed = subscriptionSet.has(
+        `${config.user_id}/${config.id}`
+      ))
+  );
+}
+
 export function requestAllFeeds(tag) {
   return async function(dispatch) {
     try {
       dispatch(allFeedsRequested(tag));
       const endpoint = tag ? `/tags/${tag}` : "/config";
-      const configs = await backend(endpoint);
+      const [configs, subscriptions] = await Promise.all([
+        backend(endpoint),
+        backend("/subscriptions")
+      ]);
+      mergeSubscriptionsAndConfigs(subscriptions, configs);
       dispatch(allFeedsRequestSucceeded(configs, tag));
     } catch (err) {
       dispatch(allFeedsRequestFailed(err));

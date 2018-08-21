@@ -52,8 +52,7 @@ class Explorer extends React.Component {
 }
 
 Explorer.propTypes = {
-  onComponentDidMount: PropTypes.func,
-  onCategoryClick: PropTypes.func
+  onTagUpdated: PropTypes.func
 };
 
 const mapStateToProps = state => {

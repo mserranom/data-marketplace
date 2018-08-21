@@ -32,6 +32,15 @@ def get_all(table_name, key, value):
     return response["Items"]
 
 
+def batch_get_all(table_name, keys): 
+    request = {}
+    request[table_name] = {
+        "Keys": keys
+    } 
+    response = dynamodb.batch_get_item(RequestItems=request)
+    return response['Responses'][table_name]
+
+
 def delete(table_name, key):
     table = dynamodb.Table(table_name)
     table.delete_item(Key=key)

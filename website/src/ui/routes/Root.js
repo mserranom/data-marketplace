@@ -7,6 +7,8 @@ import Explorer from "../routes/Explorer";
 import { Container, Row, Col } from "reactstrap";
 import Landing from "./Landing";
 import FeedView from "../views/FeedView";
+import Subscriptions from "./Subscriptions";
+import About from "./About";
 
 class Root extends React.Component {
   render() {
@@ -20,6 +22,8 @@ class Root extends React.Component {
                 <Switch>
                   <Route path="/explore/:tag" component={Explorer} />
                   <Route path="/explore" component={Explorer} />
+                  <Route path="/about" component={About} />
+                  <Route path="/subscriptions" component={Subscriptions} />
                   <Route
                     path="/user/:user_id/config/:config_id"
                     component={FeedView}

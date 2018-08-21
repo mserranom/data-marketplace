@@ -2,6 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Tag } from "./labels/Tag";
 import "./FeedCard.css";
+import { SubscribeFeedModal } from "./SubcribeFeedModal";
+import { UnsubscribeFeedModal } from "./UnsubscribeFeedModal";
+import { Button } from "reactstrap";
 
 const ImgPlaceholder = () => <div className="img-placeholder" />;
 
@@ -19,6 +22,53 @@ const IntervalTag = ({ interval }) => (
 );
 
 export class FeedCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  toggleSubscribeModal() {
+    this.setState({
+      subscribeModalIsOpen: !this.state.subscribeModalIsOpen
+    });
+  }
+
+  toggleUnsubscribeModal() {
+    this.setState({
+      unsubscribeModalIsOpen: !this.state.unsubscribeModalIsOpen
+    });
+  }
+
+  renderSubscribeButton() {
+    if (this.props.item.isSubscribed === false) {
+      return (
+        <Button
+          onClick={() => this.toggleSubscribeModal()}
+          size="sm"
+          color="primary"
+        >
+          Subscribe
+        </Button>
+      );
+    } else if (this.props.item.isSubscribed === true) {
+      return (
+        <Button
+          onClick={() => this.toggleUnsubscribeModal()}
+          size="sm"
+          color="danger"
+        >
+          Unsubscribe
+        </Button>
+      );
+    } else {
+      return (
+        <Button size="sm" color="warning" disabled={true}>
+          ?
+        </Button>
+      );
+    }
+  }
+
   render() {
     const maxTagsToShow = 4;
     const tags = this.props.item.config.tags
@@ -61,6 +111,39 @@ export class FeedCard extends React.Component {
 
         <UsernameTag username={this.props.item.user_id} />
         <IntervalTag interval={`${this.props.item.config.interval}''`} />
+        <div
+          style={{
+            position: "absolute",
+            right: 10,
+            top: 10
+          }}
+        >
+          {this.renderSubscribeButton()}
+
+          <SubscribeFeedModal
+            feedName={this.props.item.config.name}
+            toggle={() => this.toggleSubscribeModal()}
+            isOpen={this.state.subscribeModalIsOpen}
+            onConfirm={() =>
+              this.props.onSubscribeClick(
+                this.props.item.user_id,
+                this.props.item.id
+              )
+            }
+          />
+
+          <UnsubscribeFeedModal
+            feedName={this.props.item.config.name}
+            toggle={() => this.toggleUnsubscribeModal()}
+            isOpen={this.state.unsubscribeModalIsOpen}
+            onConfirm={() =>
+              this.props.onUnsubscribeClick(
+                this.props.item.user_id,
+                this.props.item.id
+              )
+            }
+          />
+        </div>
       </div>
     );
   }
@@ -69,7 +152,9 @@ export class FeedCard extends React.Component {
 FeedCard.propTypes = {
   item: PropTypes.object,
   onCategoryClick: PropTypes.func,
-  onNameClick: PropTypes.func
+  onNameClick: PropTypes.func,
+  onSubscribeClick: PropTypes.func,
+  onUnsubscribeClick: PropTypes.func
 };
 
 FeedCard.defaultProps = {
@@ -82,5 +167,7 @@ FeedCard.defaultProps = {
     }
   },
   onCategoryClick: () => {},
-  onNameClick: () => {}
+  onNameClick: () => {},
+  onSubscribeClick: () => {},
+  onUnsubscribeClick: () => {}
 };

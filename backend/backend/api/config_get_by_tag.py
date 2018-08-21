@@ -2,16 +2,25 @@
 import backend.aws.dynamodb as dynamodb
 
 
+# TODO: move to util module
+
+ENVIRONMENT = "dev"
+
+def get_name(resource):
+    return resource + "-" + ENVIRONMENT
+
+
 def config_get_by_tag(tag_name):
     tags = dynamodb.get_all(
-        table_name='config_tags',
+        table_name=get_name('config_tags'),
         key='tag',
         value=tag_name)
 
     configs = []
     for tag in tags:
-        key = { "id": tag["config_id"], "user_id": tag["user_id"] }
-        configs.append(dynamodb.get_item(table_name='configs', key=key))
+        config_key = tag["config_key"].split("/")
+        key = { "user_id": config_key[0], "id": config_key[1] }
+        configs.append(dynamodb.get_item(table_name=get_name('configs'), key=key))
 
     return configs
 

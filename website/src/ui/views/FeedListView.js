@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import { FeedCard } from "../components/FeedCard";
+import {
+  subscribe,
+  unsubscribe
+} from "../../redux/reducers/subscriptions/actions";
 
 class FeedListView extends React.Component {
   renderFeedCards() {
@@ -17,6 +22,12 @@ class FeedListView extends React.Component {
               this.props.history.push(
                 `/user/${item.user_id}/config/${item.config.id}`
               )
+            }
+            onSubscribeClick={(userId, configId) =>
+              this.props.onSubscribeClick(userId, configId)
+            }
+            onUnsubscribeClick={(userId, configId) =>
+              this.props.onUnsubscribeClick(userId, configId)
             }
           />
         </div>
@@ -42,11 +53,23 @@ class FeedListView extends React.Component {
 }
 
 FeedListView.propTypes = {
-  items: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired,
+  onSubscribeClick: PropTypes.func
 };
 
 FeedListView.defaultProps = {
   items: []
 };
 
-export default withRouter(FeedListView);
+const mapDispatchToProps = dispatch => {
+  return {
+    onSubscribeClick: (userId, configId) => {
+      dispatch(subscribe(userId, configId));
+    },
+    onUnsubscribeClick: (userId, configId) => {
+      dispatch(unsubscribe(userId, configId));
+    }
+  };
+};
+
+export default withRouter(connect(undefined, mapDispatchToProps)(FeedListView));

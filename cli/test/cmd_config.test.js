@@ -28,7 +28,7 @@ describe("commands requiring log in", () => {
   });
 
   test("add raw json configuration", () => {
-    const result = run(`config --add '${JSON.stringify(TEST_CONFIG_RAW)}'`);
+    const result = run(`config --add '${JSON.stringify(TEST_CONFIG_RAW)}'`); //TODO: no need to stringify?
     expect(result.code).toBe(0);
     expect(result.stdout).toBe("ok\n");
   });

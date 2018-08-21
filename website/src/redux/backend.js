@@ -1,6 +1,8 @@
 import { getToken } from "../aws/login";
 import { SERVER } from "../util/constants";
 
+const isString = x => typeof x === "string" || x instanceof String;
+
 export default async function(endpoint, method = "GET", body) {
   return new Promise(async (resolve, reject) => {
     const token = await getToken();
@@ -11,8 +13,9 @@ export default async function(endpoint, method = "GET", body) {
         "Content-Type": "application/json"
       }
     };
+
     if (body) {
-      params.body = body;
+      params.body = isString(body) ? body : JSON.stringify(body);
     }
 
     let response;

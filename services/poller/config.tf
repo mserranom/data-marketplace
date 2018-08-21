@@ -1,5 +1,14 @@
-variable "polling_subscriptions_table_arn" {}
-variable "live_feeds_table_arn" {}
+variable "environment" {
+  type = "string"
+}
+
+variable "polling_subscriptions_table_arn" {
+  type = "string"
+}
+
+variable "live_feeds_table_arn" {
+  type = "string"
+}
 
 data "archive_file" "lambdas_zip" { 
   type = "zip"
@@ -28,7 +37,7 @@ resource "aws_lambda_permission" "allow_cloudwatch_to_call_fetch_all" {
 }
 
 resource "aws_lambda_function" "fetch_all" {
-  function_name = "poller_fetch_all"
+  function_name = "poller_fetch_all-${var.environment}"
   filename = "${data.archive_file.lambdas_zip.output_path}"
   source_code_hash = "${base64sha256(file(data.archive_file.lambdas_zip.output_path))}"
   handler = "fetch_all.handler"

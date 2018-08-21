@@ -4,27 +4,31 @@ const cmd_login = require("./src/cmd_login");
 const cmd_logout = require("./src/cmd_logout");
 const cmd_info = require("./src/cmd_info");
 const cmd_config = require("./src/cmd_config");
+const cmd_subscriptions = require("./src/cmd_subscriptions");
 
 global.fetch = require("node-fetch-polyfill"); // polyfill for https://github.com/aws/aws-amplify/tree/master/packages/amazon-cognito-identity-js
 
 const cli = meow(
   `
 	Usage
-	  $ dmk login        starts the login process 
-	  $ dmk logout       logs out 
-	  $ dmk config       manage configurations
-	  $ dmk info         prints information about the user logged in
+	  $ dmk login          starts the login process 
+	  $ dmk logout         logs out 
+	  $ dmk config         manage configurations
+	  $ dmk subscriptions  manage subscriptionns
+	  $ dmk info           prints information about the user logged in
 
 	Options
-	  --username, -u     username passed to login command
-	  --password, -p     username passed to login command
-	  --add, -a          the configuration to add
-	  --delete, -d       the user id of the configuration to delete
-	  --tag, -t          retrieves configs only of an specific tag
+	  --username, -u       username passed to login command.
+	  --password, -p       username passed to login command.
+	  --add, -a            the configuration or subscription to add.
+    --delete, -d         the id of the configuration to delete, or the config_key 
+                         of the subscription to delete.
+	  --tag, -t            retrieves configs only of an specific tag.
 
 	Examples
 	  $ dmk login --username conan --password sF£_5F$mY
 	  $ dmk config --add config.json
+	  $ dmk subscriptions --add user_id/config_id
 `,
   {
     flags: {
@@ -72,6 +76,15 @@ async function run() {
         exitCode = await cmd_config.delete(cli.flags.delete);
       } else {
         exitCode = await cmd_config.getAll(cli.flags.tag);
+      }
+      break;
+    case "subscriptions":
+      if (cli.flags.add) {
+        exitCode = await cmd_subscriptions.add(cli.flags.add);
+      } else if (cli.flags.delete) {
+        exitCode = await cmd_subscriptions.delete(cli.flags.delete);
+      } else {
+        exitCode = await cmd_subscriptions.getAll();
       }
       break;
     default:
