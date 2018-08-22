@@ -1,20 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { connect } from "react-redux";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
 import FeedListView from "../../ui/views/FeedListView";
 import { requestAllFeeds } from "../../redux/reducers/navigation/actions";
 import { CategoryList } from "../components/CategoryList";
+import { ConfigData } from "../../redux/types";
 
-class Explorer extends React.Component {
+interface RouteParams {
+  tag: string;
+}
+
+type Props = RouteComponentProps<RouteParams> & {
+  onTagUpdated: (x?: string) => void;
+  feeds: ConfigData[];
+};
+
+class Explorer extends React.Component<Props> {
   componentDidMount() {
     const tag = this.props.match.params.tag;
     this.props.onTagUpdated(tag);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const prevTag = prevProps.match.params.tag;
     const nextTag = this.props.match.params.tag;
     if (prevTag !== nextTag) {
@@ -51,23 +60,21 @@ class Explorer extends React.Component {
   }
 }
 
-Explorer.propTypes = {
-  onTagUpdated: PropTypes.func
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
   return {
     feeds: state.navigation.allFeeds
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
-    onTagUpdated: tag => {
-      // tag is optional here
+    onTagUpdated: (tag?: string) => {
       dispatch(requestAllFeeds(tag));
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Explorer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Explorer);

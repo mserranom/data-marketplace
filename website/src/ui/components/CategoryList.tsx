@@ -1,9 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { GREY_DARK } from "../../util/colors";
 import "./CategoryList.css";
 
-const CategoryTag = ({ name, icon, onClick }) => (
+interface CategoryTagProps {
+  name: string;
+  icon: string;
+  onClick: () => void;
+}
+
+const CategoryTag = ({ name, icon, onClick }: CategoryTagProps) => (
   <div
     style={{
       position: "relative",
@@ -19,7 +24,11 @@ const CategoryTag = ({ name, icon, onClick }) => (
   </div>
 );
 
-export class CategoryList extends React.Component {
+interface Props {
+  onCategoryClick: (category: string) => void;
+}
+
+export class CategoryList extends React.Component<Props> {
   render() {
     return (
       <div>
@@ -68,13 +77,3 @@ export class CategoryList extends React.Component {
     );
   }
 }
-
-CategoryList.propTypes = {
-  onCategoryClick: PropTypes.func
-};
-
-CategoryList.defaultProps = {
-  onCategoryClick: x => {
-    console.log("as " + x);
-  }
-};
