@@ -1,24 +1,23 @@
 // most of the code comes from https://github.com/aws/aws-amplify/tree/master/packages/amazon-cognito-identity-js
 
-// const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
-
 import {
   AuthenticationDetails,
   CognitoUser,
   CognitoUserPool,
   CognitoUserAttribute,
-  CognitoUserSession,
-  ISignUpResult
+  CognitoUserSession
 } from "amazon-cognito-identity-js";
+
+type ErrorMessage = {
+  message: string;
+};
+
+type CognitoError = Error & ErrorMessage | undefined;
 
 const poolData = {
   UserPoolId: "us-west-2_CoIS7kwaJ",
   ClientId: "469mi1m81mrn3s5m0cn0njp22l"
 };
-
-interface ErrorMessage {
-  message: string;
-}
 
 const userPool = new CognitoUserPool(poolData);
 
@@ -29,16 +28,17 @@ export function signupUser(username: string, password: string, email: string) {
   };
   const attributeList = [new CognitoUserAttribute(dataEmail)];
   return new Promise<CognitoUser>((resolve, reject) => {
-    userPool.signUp(username, password, attributeList, [], function(
-      err,
-      result: ISignUpResult
-    ) {
+    userPool.signUp(username, password, attributeList, [], function<
+      Error,
+      ISignUpResult
+    >(err: CognitoError, result: ISignUpResult) {
       if (err) {
         console.error("signup error:" + err.message || JSON.stringify(err));
         reject(err.message || JSON.stringify(err));
       } else {
-        console.log("user name is " + result.user.getUsername());
-        resolve(result.user);
+        const signupResult: any = result; //TODO: fix this cast, I've been unable to use ISignupResult properly
+        console.log("user name is " + signupResult.user.getUsername());
+        resolve(signupResult.user);
       }
     });
   });
@@ -46,7 +46,10 @@ export function signupUser(username: string, password: string, email: string) {
 
 export function confirmUser(cognitoUser: CognitoUser, code: string) {
   return new Promise<void>((resolve, reject) => {
-    cognitoUser.confirmRegistration(code, true, function(err, result) {
+    cognitoUser.confirmRegistration(code, true, function<Error, Object>(
+      err: CognitoError,
+      result: unknown
+    ) {
       if (err) {
         console.error(
           "signup confirmation error:" + err.message || JSON.stringify(err)

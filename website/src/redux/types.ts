@@ -13,3 +13,5 @@ export interface Config {
   url: string;
   tags: string[];
 }
+
+export interface StateRoot {}

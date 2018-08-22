@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-router": "^4.0.30",
+    "@types/reactstrap": "^6.0.2",
     "amazon-cognito-identity-js": "^2.0.9",
     "bootstrap": "^4.1.1",
     "classnames": "^2.2.5",
