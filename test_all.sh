@@ -43,10 +43,10 @@ npm test
 
 step "build and test website"
 cd ${ROOT}/website
-npm install
-npm start &
+yarn
+yarn start &
 sleep 5
-npm test
+yarn test
 
 
 step "Done."

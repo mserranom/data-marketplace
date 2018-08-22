@@ -1,4 +1,6 @@
 import backend from "../../backend";
+import { Dispatch } from "redux";
+import { ConfigData } from "../../types";
 
 export const SUBSCRIBE_REQUESTED = "SUBSCRIBE_REQUESTED";
 export const SUBSCRIBE_REQUEST_SUCCEEDED = "SUBSCRIBE_REQUEST_SUCCEEDED";
@@ -12,21 +14,21 @@ export const FETCH_SUBSCRIPTIONS_REQUESTED = "FETCH_SUBSCRIPTIONS_REQUESTED";
 export const FETCH_SUBSCRIPTIONS_SUCCEEDED = "FETCH_SUBSCRIPTIONS_SUCCEEDED";
 export const FETCH_SUBSCRIPTIONS_FAILED = "FETCH_SUBSCRIPTIONS_FAILED";
 
-export function subscribeRequested(configKey) {
+function subscribeRequested(configKey: string) {
   return { type: SUBSCRIBE_REQUESTED, configKey };
 }
 
-export function subscribeRequestSucceeded(configKey) {
+function subscribeRequestSucceeded(configKey: string) {
   return { type: SUBSCRIBE_REQUEST_SUCCEEDED, configKey };
 }
 
-export function subscribeRequestFailed(errorMessage, configKey) {
+function subscribeRequestFailed(errorMessage: string, configKey: string) {
   return { type: SUBSCRIBE_REQUEST_FAILED, errorMessage, configKey };
 }
 
-export function subscribe(userId, configId) {
+export function subscribe(userId: string, configId: string) {
   const configKey = `${userId}/${configId}`;
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<Action>) {
     try {
       dispatch(subscribeRequested(configKey));
       await backend("/subscriptions", "POST", {
@@ -39,21 +41,21 @@ export function subscribe(userId, configId) {
   };
 }
 
-export function unsubscribeRequested(configKey) {
+function unsubscribeRequested(configKey: string) {
   return { type: UNSUBSCRIBE_REQUESTED, configKey };
 }
 
-export function unsubscribeRequestSucceeded(configKey) {
+function unsubscribeRequestSucceeded(configKey: string) {
   return { type: UNSUBSCRIBE_REQUEST_SUCCEEDED, configKey };
 }
 
-export function unsubscribeRequestFailed(errorMessage, configKey) {
+function unsubscribeRequestFailed(errorMessage: string, configKey: string) {
   return { type: UNSUBSCRIBE_REQUEST_FAILED, errorMessage, configKey };
 }
 
-export function unsubscribe(userId, configId) {
+export function unsubscribe(userId: string, configId: string) {
   const configKey = `${userId}/${configId}`;
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<Action>) {
     try {
       dispatch(unsubscribeRequested(configKey));
       await backend("/subscriptions", "DELETE", {
@@ -66,23 +68,25 @@ export function unsubscribe(userId, configId) {
   };
 }
 
-export function fetchSubscriptionsRequested() {
+function fetchSubscriptionsRequested() {
   return { type: FETCH_SUBSCRIPTIONS_REQUESTED };
 }
 
-export function fetchSubscriptionsSucceeded(subscriptions) {
+function fetchSubscriptionsSucceeded(subscriptions: ConfigData[]) {
   return { type: FETCH_SUBSCRIPTIONS_SUCCEEDED, subscriptions };
 }
 
-export function fetchSubscriptionsFailed(errorMessage) {
+function fetchSubscriptionsFailed(errorMessage: string) {
   return { type: FETCH_SUBSCRIPTIONS_FAILED, errorMessage };
 }
 
 export function fetchSubscriptions() {
-  return async function(dispatch) {
+  return async function(dispatch: Dispatch<Action>) {
     try {
       dispatch(fetchSubscriptionsRequested());
-      const subscriptions = await backend("/subscriptions?full_content=true");
+      const subscriptions: ConfigData[] = await backend(
+        "/subscriptions?full_content=true"
+      );
       subscriptions.forEach(x => (x.isSubscribed = true)); // we force the property, since we can expect all items are subscribed
       dispatch(fetchSubscriptionsSucceeded(subscriptions));
     } catch (errorMessage) {
@@ -90,3 +94,14 @@ export function fetchSubscriptions() {
     }
   };
 }
+
+type Action =
+  | ReturnType<typeof subscribeRequested>
+  | ReturnType<typeof subscribeRequestSucceeded>
+  | ReturnType<typeof subscribeRequestFailed>
+  | ReturnType<typeof unsubscribeRequested>
+  | ReturnType<typeof unsubscribeRequestSucceeded>
+  | ReturnType<typeof unsubscribeRequestFailed>
+  | ReturnType<typeof fetchSubscriptionsRequested>
+  | ReturnType<typeof fetchSubscriptionsSucceeded>
+  | ReturnType<typeof fetchSubscriptionsFailed>;

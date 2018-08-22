@@ -1,12 +1,14 @@
 import { getToken } from "../aws/login";
 import { SERVER } from "../util/constants";
 
-const isString = x => typeof x === "string" || x instanceof String;
+import fetch, { RequestInit } from "node-fetch";
 
-export default async function(endpoint, method = "GET", body) {
-  return new Promise(async (resolve, reject) => {
+//TODO: strict typing overloading the endpoint, passin params as Map
+
+export default async function(endpoint: string, method = "GET", body?: object) {
+  return new Promise<any>(async (resolve, reject) => {
     const token = await getToken();
-    const params = {
+    const params: RequestInit = {
       method: method,
       headers: {
         Authorization: token,
@@ -15,7 +17,11 @@ export default async function(endpoint, method = "GET", body) {
     };
 
     if (body) {
-      params.body = isString(body) ? body : JSON.stringify(body);
+      if (typeof body === "string") {
+        params.body = body;
+      } else {
+        params.body = JSON.stringify(body);
+      }
     }
 
     let response;

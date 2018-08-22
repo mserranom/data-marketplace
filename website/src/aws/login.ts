@@ -1,29 +1,37 @@
 // most of the code comes from https://github.com/aws/aws-amplify/tree/master/packages/amazon-cognito-identity-js
 
-const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+// const AmazonCognitoIdentity = require("amazon-cognito-identity-js");
+
+import {
+  AuthenticationDetails,
+  CognitoUser,
+  CognitoUserPool,
+  CognitoUserAttribute,
+  CognitoUserSession,
+  ISignUpResult
+} from "amazon-cognito-identity-js";
 
 const poolData = {
   UserPoolId: "us-west-2_CoIS7kwaJ",
   ClientId: "469mi1m81mrn3s5m0cn0njp22l"
 };
 
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+interface ErrorMessage {
+  message: string;
+}
 
-export function signupUser(username, password, email) {
-  const attributeList = [];
+const userPool = new CognitoUserPool(poolData);
 
+export function signupUser(username: string, password: string, email: string) {
   const dataEmail = {
     Name: "email",
     Value: email
   };
-  const attributeEmail = new AmazonCognitoIdentity.CognitoUserAttribute(
-    dataEmail
-  );
-  attributeList.push(attributeEmail);
-  return new Promise((resolve, reject) => {
-    userPool.signUp(username, password, attributeList, null, function(
+  const attributeList = [new CognitoUserAttribute(dataEmail)];
+  return new Promise<CognitoUser>((resolve, reject) => {
+    userPool.signUp(username, password, attributeList, [], function(
       err,
-      result
+      result: ISignUpResult
     ) {
       if (err) {
         console.error("signup error:" + err.message || JSON.stringify(err));
@@ -36,8 +44,8 @@ export function signupUser(username, password, email) {
   });
 }
 
-export function confirmUser(cognitoUser, code) {
-  return new Promise((resolve, reject) => {
+export function confirmUser(cognitoUser: CognitoUser, code: string) {
+  return new Promise<void>((resolve, reject) => {
     cognitoUser.confirmRegistration(code, true, function(err, result) {
       if (err) {
         console.error(
@@ -52,19 +60,17 @@ export function confirmUser(cognitoUser, code) {
   });
 }
 
-export function loginUser(username, password) {
-  return new Promise((resolve, reject) => {
-    const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(
-      {
-        Username: username,
-        Password: password
-      }
-    );
+export function loginUser(username: string, password: string) {
+  return new Promise<string>((resolve, reject) => {
+    const authenticationDetails = new AuthenticationDetails({
+      Username: username,
+      Password: password
+    });
     const userData = {
       Username: username,
       Pool: userPool
     };
-    const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+    const cognitoUser = new CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
       onSuccess: function(result) {
         resolve(result.getAccessToken().getJwtToken());
@@ -79,21 +85,26 @@ export function loginUser(username, password) {
 }
 
 export function signout() {
-  const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  const userPool = new CognitoUserPool(poolData);
   const cognitoUser = userPool.getCurrentUser();
-  cognitoUser.signOut();
+  if (cognitoUser) {
+    cognitoUser.signOut();
+  }
 }
 
 // TODO: cache!!
 export function getToken() {
-  return new Promise((resolve, reject) => {
-    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  return new Promise<string>((resolve, reject) => {
+    const userPool = new CognitoUserPool(poolData);
     const cognitoUser = userPool.getCurrentUser();
 
     if (!cognitoUser) {
       reject("local storage has no cognito user");
     } else {
-      cognitoUser.getSession(function(err, session) {
+      cognitoUser.getSession(function(
+        err: ErrorMessage,
+        session: CognitoUserSession
+      ) {
         if (err) {
           reject(err.message || JSON.stringify(err));
         } else {
@@ -106,14 +117,17 @@ export function getToken() {
 }
 
 export function checkCurrentUsername() {
-  return new Promise((resolve, reject) => {
-    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+  return new Promise<string>((resolve, reject) => {
+    const userPool = new CognitoUserPool(poolData);
     const cognitoUser = userPool.getCurrentUser();
 
     if (!cognitoUser) {
       resolve(undefined);
     } else {
-      cognitoUser.getSession(function(err, session) {
+      cognitoUser.getSession(function(
+        err: ErrorMessage,
+        session: CognitoUserSession
+      ) {
         if (err) {
           reject(err.message || JSON.stringify(err));
         } else {
