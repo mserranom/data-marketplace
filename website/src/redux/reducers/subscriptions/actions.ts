@@ -14,15 +14,36 @@ export const FETCH_SUBSCRIPTIONS_REQUESTED = "FETCH_SUBSCRIPTIONS_REQUESTED";
 export const FETCH_SUBSCRIPTIONS_SUCCEEDED = "FETCH_SUBSCRIPTIONS_SUCCEEDED";
 export const FETCH_SUBSCRIPTIONS_FAILED = "FETCH_SUBSCRIPTIONS_FAILED";
 
-function subscribeRequested(configKey: string) {
+interface SubscribeRequested {
+  type: typeof SUBSCRIBE_REQUESTED;
+  configKey: string;
+}
+
+function subscribeRequested(configKey: string): SubscribeRequested {
   return { type: SUBSCRIBE_REQUESTED, configKey };
 }
 
-function subscribeRequestSucceeded(configKey: string) {
+interface SubscribeRequestSuceeded {
+  type: typeof SUBSCRIBE_REQUEST_SUCCEEDED;
+  configKey: string;
+}
+
+function subscribeRequestSucceeded(
+  configKey: string
+): SubscribeRequestSuceeded {
   return { type: SUBSCRIBE_REQUEST_SUCCEEDED, configKey };
 }
 
-function subscribeRequestFailed(errorMessage: string, configKey: string) {
+interface SubscribeRequestFailed {
+  type: typeof SUBSCRIBE_REQUEST_FAILED;
+  errorMessage: string;
+  configKey: string;
+}
+
+function subscribeRequestFailed(
+  errorMessage: string,
+  configKey: string
+): SubscribeRequestFailed {
   return { type: SUBSCRIBE_REQUEST_FAILED, errorMessage, configKey };
 }
 
@@ -41,15 +62,36 @@ export function subscribe(userId: string, configId: string) {
   };
 }
 
-function unsubscribeRequested(configKey: string) {
+interface UnsubscribeRequested {
+  type: typeof UNSUBSCRIBE_REQUESTED;
+  configKey: string;
+}
+
+function unsubscribeRequested(configKey: string): UnsubscribeRequested {
   return { type: UNSUBSCRIBE_REQUESTED, configKey };
 }
 
-function unsubscribeRequestSucceeded(configKey: string) {
+interface UnsubscribeRequestSucceeded {
+  type: typeof UNSUBSCRIBE_REQUEST_SUCCEEDED;
+  configKey: string;
+}
+
+function unsubscribeRequestSucceeded(
+  configKey: string
+): UnsubscribeRequestSucceeded {
   return { type: UNSUBSCRIBE_REQUEST_SUCCEEDED, configKey };
 }
 
-function unsubscribeRequestFailed(errorMessage: string, configKey: string) {
+interface UnsubscribeRequestFailed {
+  type: typeof UNSUBSCRIBE_REQUEST_FAILED;
+  configKey: string;
+  errorMessage: string;
+}
+
+function unsubscribeRequestFailed(
+  errorMessage: string,
+  configKey: string
+): UnsubscribeRequestFailed {
   return { type: UNSUBSCRIBE_REQUEST_FAILED, errorMessage, configKey };
 }
 
@@ -68,15 +110,33 @@ export function unsubscribe(userId: string, configId: string) {
   };
 }
 
-function fetchSubscriptionsRequested() {
+interface FetchSubscriptionRequested {
+  type: typeof FETCH_SUBSCRIPTIONS_REQUESTED;
+}
+
+function fetchSubscriptionsRequested(): FetchSubscriptionRequested {
   return { type: FETCH_SUBSCRIPTIONS_REQUESTED };
 }
 
-function fetchSubscriptionsSucceeded(subscriptions: ConfigData[]) {
+interface FetchSubscriptionsSucceeded {
+  type: typeof FETCH_SUBSCRIPTIONS_SUCCEEDED;
+  subscriptions: ConfigData[];
+}
+
+function fetchSubscriptionsSucceeded(
+  subscriptions: ConfigData[]
+): FetchSubscriptionsSucceeded {
   return { type: FETCH_SUBSCRIPTIONS_SUCCEEDED, subscriptions };
 }
 
-function fetchSubscriptionsFailed(errorMessage: string) {
+interface FetchSubscriptionsFailed {
+  type: typeof FETCH_SUBSCRIPTIONS_FAILED;
+  errorMessage: string;
+}
+
+function fetchSubscriptionsFailed(
+  errorMessage: string
+): FetchSubscriptionsFailed {
   return { type: FETCH_SUBSCRIPTIONS_FAILED, errorMessage };
 }
 
@@ -95,13 +155,13 @@ export function fetchSubscriptions() {
   };
 }
 
-type Action =
-  | ReturnType<typeof subscribeRequested>
-  | ReturnType<typeof subscribeRequestSucceeded>
-  | ReturnType<typeof subscribeRequestFailed>
-  | ReturnType<typeof unsubscribeRequested>
-  | ReturnType<typeof unsubscribeRequestSucceeded>
-  | ReturnType<typeof unsubscribeRequestFailed>
-  | ReturnType<typeof fetchSubscriptionsRequested>
-  | ReturnType<typeof fetchSubscriptionsSucceeded>
-  | ReturnType<typeof fetchSubscriptionsFailed>;
+export type Action =
+  | SubscribeRequested
+  | SubscribeRequestSuceeded
+  | SubscribeRequestFailed
+  | UnsubscribeRequested
+  | UnsubscribeRequestSucceeded
+  | UnsubscribeRequestFailed
+  | FetchSubscriptionRequested
+  | FetchSubscriptionsSucceeded
+  | FetchSubscriptionsFailed;

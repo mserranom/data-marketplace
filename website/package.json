@@ -63,6 +63,6 @@
     "readline-sync": "^1.4.9",
     "redux-devtools": "^3.4.1",
     "redux-devtools-extension": "^2.13.2",
-    "typescript": "^3.0.1"
+    "typescript": "next"
   }
 }

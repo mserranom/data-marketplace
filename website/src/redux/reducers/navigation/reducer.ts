@@ -1,16 +1,18 @@
 import {
+  ALL_FEEDS_REQUESTED,
   ALL_FEEDS_REQUEST_SUCCEEDED,
   ALL_FEEDS_REQUEST_FAILED,
+  FEED_TO_DISPLAY_REQUESTED,
   FEED_TO_DISPLAY_REQUEST_SUCCEEDED,
   FEED_TO_DISPLAY_REQUEST_FAILED,
-  FEED_TO_DISPLAY_REQUESTED
+  Action
 } from "./actions";
+import { StateNavigation } from "../../types";
 
-export default function(state, action) {
-  if (!state) {
-    return {};
-  }
-
+function reduce(
+  state: StateNavigation,
+  action: Action
+): StateNavigation | undefined {
   switch (action.type) {
     case ALL_FEEDS_REQUEST_SUCCEEDED:
       return Object.assign({}, state, {
@@ -29,7 +31,19 @@ export default function(state, action) {
       return Object.assign({}, state, {
         backendErrorMessage: action.errorMessage
       });
-    default:
+    case ALL_FEEDS_REQUESTED:
       return state;
   }
+}
+
+export default function(
+  state: StateNavigation,
+  action: Action
+): StateNavigation {
+  if (!state) {
+    return {};
+  }
+
+  const result = reduce(state, action);
+  return result ? result : state;
 }

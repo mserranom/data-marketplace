@@ -1,30 +1,41 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { Tag } from "./labels/Tag";
 import "./FeedCard.css";
 import { SubscribeFeedModal } from "./SubcribeFeedModal";
 import { UnsubscribeFeedModal } from "./UnsubscribeFeedModal";
 import { Button } from "reactstrap";
+import { ConfigData } from "../../redux/types";
 
-const ImgPlaceholder = () => <div className="img-placeholder" />;
-
-const UsernameTag = ({ username }) => (
+const UsernameTag = ({ username }: { username: string }) => (
   <div className="font-weight-light username-tag">
     <i className="fas fa-user" /> {" " + username}
   </div>
 );
 
-const IntervalTag = ({ interval }) => (
+const IntervalTag = ({ interval }: { interval: string }) => (
   <div className="font-weight-light interval-tag">
     <i className="fas fa-clock" />
     {" " + interval}
   </div>
 );
 
-export class FeedCard extends React.Component {
-  constructor(props) {
+interface Props {
+  item: ConfigData;
+  onNameClick: () => void;
+  onCategoryClick: (tag: string) => void;
+  onSubscribeClick: (userId: string, feedId: string) => void;
+  onUnsubscribeClick: (userId: string, feedId: string) => void;
+}
+
+interface State {
+  subscribeModalIsOpen: boolean;
+  unsubscribeModalIsOpen: boolean;
+}
+
+export class FeedCard extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.state = {};
+    this.state = { subscribeModalIsOpen: false, unsubscribeModalIsOpen: false };
   }
 
   toggleSubscribeModal() {
@@ -80,7 +91,7 @@ export class FeedCard extends React.Component {
               style={{ marginRight: 12 }}
               onClick={() => this.props.onCategoryClick(tag)}
             >
-              <Tag name={tag} icon={tag} />
+              <Tag name={tag} />
             </div>
           ))
           .slice(0, maxTagsToShow)
@@ -97,7 +108,8 @@ export class FeedCard extends React.Component {
           width: 600
         }}
       >
-        <ImgPlaceholder
+        <div
+          className="img-placeholder"
           style={{
             position: "absolute"
           }}
@@ -148,26 +160,3 @@ export class FeedCard extends React.Component {
     );
   }
 }
-
-FeedCard.propTypes = {
-  item: PropTypes.object,
-  onCategoryClick: PropTypes.func,
-  onNameClick: PropTypes.func,
-  onSubscribeClick: PropTypes.func,
-  onUnsubscribeClick: PropTypes.func
-};
-
-FeedCard.defaultProps = {
-  item: {
-    user_id: "user_id",
-    config: {
-      name: "Feed Name",
-      tags: ["Smart City", "Sports", "News", "Government", "Social"],
-      interval: 10
-    }
-  },
-  onCategoryClick: () => {},
-  onNameClick: () => {},
-  onSubscribeClick: () => {},
-  onUnsubscribeClick: () => {}
-};

@@ -9,7 +9,7 @@ import { CategoryList } from "../components/CategoryList";
 import { ConfigData } from "../../redux/types";
 
 interface RouteParams {
-  tag: string;
+  tag?: string;
 }
 
 type Props = RouteComponentProps<RouteParams> & {

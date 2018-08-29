@@ -1,17 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-export class UnsubscribeFeedModal extends React.Component {
+interface Props {
+  feedName: string;
+  isOpen: boolean;
+  toggle: () => void;
+  onConfirm: () => void;
+}
+
+export class SubscribeFeedModal extends React.Component<Props> {
   render() {
     return (
       <div>
         <Modal isOpen={this.props.isOpen} toggle={this.props.toggle}>
           <ModalHeader toggle={this.props.toggle}>
-            Confirm Subscription Cancelation
+            Confirm Subscription
           </ModalHeader>
           <ModalBody>
-            Are you sure you want to remove your subscription to{" "}
+            Are you sure you want to subscribe to{" "}
             <strong>{this.props.feedName}</strong>?
           </ModalBody>
           <ModalFooter>
@@ -23,7 +29,7 @@ export class UnsubscribeFeedModal extends React.Component {
                 this.props.toggle();
               }}
             >
-              Unsubscribe
+              Subscribe
             </Button>
             <Button color="secondary" size="sm" onClick={this.props.toggle}>
               Cancel
@@ -34,10 +40,3 @@ export class UnsubscribeFeedModal extends React.Component {
     );
   }
 }
-
-UnsubscribeFeedModal.propTypes = {
-  feedName: PropTypes.string,
-  isOpen: PropTypes.bool,
-  toggle: PropTypes.func,
-  onConfirm: PropTypes.func
-};

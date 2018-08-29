@@ -1,11 +1,16 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { connect } from "react-redux";
 
 import FeedListView from "../../ui/views/FeedListView";
 import { fetchSubscriptions } from "../../redux/reducers/subscriptions/actions";
+import { ConfigData } from "../../redux/types";
 
-class Subscriptions extends React.Component {
+interface Props {
+  onComponentDidMount: () => void;
+  configs: ConfigData[];
+}
+
+class Subscriptions extends React.Component<Props> {
   componentDidMount() {
     this.props.onComponentDidMount();
   }
@@ -28,17 +33,13 @@ class Subscriptions extends React.Component {
   }
 }
 
-Subscriptions.propTypes = {
-  onComponentDidMount: PropTypes.func
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state: any) => {
   return {
     configs: state.subscriptions.allSubscriptions
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     onComponentDidMount: () => {
       dispatch(fetchSubscriptions());
@@ -46,4 +47,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Subscriptions);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Subscriptions);

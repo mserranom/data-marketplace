@@ -1,16 +1,21 @@
-import React from "react";
+import * as React from "react";
 import "./Tag.css";
 
 // TODO: tags should have an alias lowercased, it makes Restful calls complicated
 
-export const IconTag = ({ name, icon }) => (
+interface IconProps {
+  name: string;
+  icon: string;
+}
+
+export const IconTag = ({ name, icon }: IconProps) => (
   <div className="icon-tag">
     <i className={`fas fa-${icon}`} />{" "}
     <span className="tag-label">{" " + name}</span>
   </div>
 );
 
-export const Tag = ({ name }) => {
+export const Tag = ({ name }: { name: string }) => {
   switch (name.toLowerCase()) {
     case "weather":
       return <IconTag name="Weather" icon="sun" />;

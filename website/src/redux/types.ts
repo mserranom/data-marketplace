@@ -14,4 +14,25 @@ export interface Config {
   tags: string[];
 }
 
-export interface StateRoot {}
+export interface Subscription {
+  config_key: string;
+}
+
+export interface StateLogin {
+  isLoggedIn?: boolean;
+  username?: string;
+}
+
+export interface StateNavigation {
+  allFeeds?: ConfigData[];
+}
+
+export interface StateSubscriptions {
+  allFeeds?: ConfigData[];
+}
+
+export interface StateRoot {
+  login: StateLogin;
+  navigation: StateNavigation;
+  subscriptions: StateSubscriptions;
+}
