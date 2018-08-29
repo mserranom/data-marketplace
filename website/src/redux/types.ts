@@ -12,6 +12,7 @@ export interface Config {
   interval: number;
   url: string;
   tags: string[];
+  long_description: string;
 }
 
 export interface Subscription {
@@ -25,6 +26,7 @@ export interface StateLogin {
 
 export interface StateNavigation {
   allFeeds?: ConfigData[];
+  feedToDisplay?: ConfigData;
 }
 
 export interface StateSubscriptions {

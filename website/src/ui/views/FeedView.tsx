@@ -1,17 +1,38 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { connect } from "react-redux";
 import { requestFeedToDisplay } from "../../redux/reducers/navigation/actions";
-import ReactMarkdown from "react-markdown";
+import * as ReactMarkdown from "react-markdown";
 import { Badge, Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import { Tag } from "../components/labels/Tag";
 import "./FeedView.css";
 import { UserLabel } from "../components/labels/UserLabel";
 import { SERVER } from "../../util/constants";
 import { withRouter } from "react-router-dom";
+import { StateRoot } from "../../redux/types";
+import { Dispatch } from "redux";
 
-class FeedView extends React.Component {
+interface RouteParams {
+  user_id: string;
+  config_id: string;
+}
+
+interface ComponentProps {
+  id: string;
+  name: string;
+  userId: string;
+  longDescription: string;
+  url: string;
+  tags: string[];
+}
+
+interface EventProps {
+  onComponentDidMount: (userId: string, configId: string) => void;
+}
+
+type Props = RouteComponentProps<RouteParams> & ComponentProps & EventProps;
+
+class FeedView extends React.Component<Props> {
   componentDidMount() {
     this.props.onComponentDidMount(
       this.props.match.params.user_id,
@@ -74,16 +95,7 @@ class FeedView extends React.Component {
   }
 }
 
-FeedView.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  userId: PropTypes.string,
-  longDescription: PropTypes.string,
-  url: PropTypes.string,
-  tags: PropTypes.array
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state: StateRoot): ComponentProps => {
   if (state.navigation.feedToDisplay) {
     const config = state.navigation.feedToDisplay.config;
     return {
@@ -94,11 +106,19 @@ const mapStateToProps = state => {
       url: config.url,
       tags: config.tags
     };
+  } else {
+    return {
+      id: "id",
+      name: "name",
+      userId: "user_id",
+      longDescription: "long_description",
+      url: "url",
+      tags: ["tag1", "tag2"]
+    };
   }
-  return {};
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps: any = (dispatch: Dispatch<any>): EventProps => {
   return {
     onComponentDidMount: (userId, configId) => {
       dispatch(requestFeedToDisplay(userId, configId));
@@ -107,5 +127,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(FeedView)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FeedView)
 );
