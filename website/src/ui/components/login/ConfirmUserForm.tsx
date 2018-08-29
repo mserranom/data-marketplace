@@ -1,9 +1,18 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { Alert, Button, Input, Form, FormGroup } from "reactstrap";
 
-export default class ConfirmUserForm extends React.Component {
-  constructor(props) {
+interface Props {
+  controlsDisabled: boolean;
+  onConfirmationClick: (confirmationCode: string) => void;
+  errorMessage: string;
+}
+
+interface State {
+  confirmationCodeInputValue: string;
+}
+
+export default class ConfirmUserForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       confirmationCodeInputValue: ""
@@ -56,9 +65,3 @@ export default class ConfirmUserForm extends React.Component {
     );
   }
 }
-
-ConfirmUserForm.propTypes = {
-  controlsDisabled: PropTypes.bool.isRequired,
-  onConfirmationClick: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
-};

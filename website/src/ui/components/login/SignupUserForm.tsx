@@ -1,9 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { Alert, Button, Form, FormGroup, FormText, Input } from "reactstrap";
 
-export default class SignupUserForm extends React.Component {
-  constructor(props) {
+interface Props {
+  controlsDisabled: boolean;
+  onSignupClick: (username: string, password: string, email: string) => void;
+  errorMessage: string;
+}
+
+interface State {
+  usernameInputValue: string;
+  passwordInputValue: string;
+  emailInputValue: string;
+}
+
+export default class SignupUserForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       usernameInputValue: "",
@@ -92,9 +103,3 @@ export default class SignupUserForm extends React.Component {
     );
   }
 }
-
-SignupUserForm.propTypes = {
-  controlsDisabled: PropTypes.bool.isRequired,
-  onSignupClick: PropTypes.func.isRequired,
-  errorMessage: PropTypes.string
-};

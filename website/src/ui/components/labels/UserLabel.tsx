@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 
-export const UserLabel = ({ username }) => (
+export const UserLabel = ({ username }: { username: string }) => (
   <div
     className="font-weight-light"
     style={{

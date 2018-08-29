@@ -1,9 +1,19 @@
-import React from "react";
-import PropTypes from "prop-types";
+import * as React from "react";
 import { Alert, Button, Form, FormGroup, Input } from "reactstrap";
 
-export default class LoginForm extends React.Component {
-  constructor(props) {
+interface Props {
+  controlsDisabled: boolean;
+  onLoginClick: (username: string, password: string) => void;
+  errorMessage: string;
+}
+
+interface State {
+  usernameInputValue: string;
+  passwordInputValue: string;
+}
+
+export default class LoginForm extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       usernameInputValue: "",
@@ -28,7 +38,6 @@ export default class LoginForm extends React.Component {
         <FormGroup>
           <Input
             id="loginUsernameInput"
-            type="username"
             bsSize="lg"
             placeholder="username"
             onChange={event => {
@@ -72,9 +81,3 @@ export default class LoginForm extends React.Component {
     );
   }
 }
-
-LoginForm.propTypes = {
-  controlsDisabled: PropTypes.bool,
-  onLoginClick: PropTypes.func,
-  errorMessage: PropTypes.string
-};
